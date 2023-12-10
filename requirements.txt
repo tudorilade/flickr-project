@@ -1,0 +1,7 @@
+flickrapi==2.4.0
+folium==0.15.1
+mypy-extensions==1.0.0
+numpy==1.26.1
+python-decouple==3.8
+requests==2.31.0
+selenium==4.16.0
