@@ -1,6 +1,14 @@
+"""
+main.py
+________
+
+Main module of the application.
+This is the entry point of the application. It parses the arguments from CLI based on the
+definition of ArgumentParser class.
+"""
 import argparse
 
-from flikr_app.flikr import FlickParser
+from flikr_app import FlickParser
 
 
 def main() -> None:

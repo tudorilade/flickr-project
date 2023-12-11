@@ -1,3 +1,16 @@
+"""
+utils.py
+---------
+
+Utility module containing helping functions related to Flickr API interaction.
+
+Functions:
+    start_driver: starts the chrome driver where the map is rendered
+    initialize_flick_api: initialize a Flickr API client
+    initialize_folium_map: initialize the folium map used for pinning the locations
+    log_error(message, error): writes the error message to standard error
+    log_info(message): writes the info message to standard output
+"""
 import sys
 
 import flickrapi
@@ -10,10 +23,6 @@ from flikr_app.settings import (
     PATH_TO_MAP,
     URL_TO_MAP
 )
-
-#
-# Some constants declared
-#
 
 
 def start_driver() -> webdriver.Chrome:

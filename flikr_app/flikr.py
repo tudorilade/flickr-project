@@ -1,3 +1,15 @@
+"""
+flikr.py
+---------
+
+Main module for the Flickr project. This module contains the logic for accessing and
+interacting with the Flickr API. It provides search functionalities on Flickr API for searching
+a pattern in tags, title and description of photos. Then, plot the location of the posts upload
+on a map.
+
+Classes:
+    FlickParser: Main class for interacting with the Flickr API.
+"""
 import time
 from typing import (
     Any,
@@ -34,9 +46,24 @@ class FlickParser:
     """
 
     def __init__(self, hashtag: str, limit: Optional[str]):
-        self.flickr: flickrapi.FlickrAPI = initialize_flick_api()
+        """
+        Initializes the flickr instance with the given hashtag and limit.
+
+        Args:
+            hashtag (str): the hashtag to match against
+            limit (int | None): the limit of posts to read. By default, read the entire response.
+        """
         self.folium_map: folium.Map = initialize_folium_map()
         self.driver: webdriver.Chrome = start_driver()
+        try:
+            self.flickr: flickrapi.FlickrAPI = initialize_flick_api()
+        except flickrapi.FlickrError as e:
+            # stop execution here
+            log_error(
+                "An error has occurred while connecting to the flickr API. Error: ",
+                str(e)
+            )
+            raise e
         self.hashtag: str = hashtag
         self.limit: Optional[int] = limit
         self.current_limit = 0
@@ -61,7 +88,6 @@ class FlickParser:
 
         # suppress here the exception in case it exists
         return True
-
 
     def parse(self) -> None:
         """Parse images
@@ -93,12 +119,18 @@ class FlickParser:
             )
             raise e
 
-        if len(photos) == 0:
+        # assumptions that their API works as expected
+        assert "photo" in photos
+        assert isinstance(photos["photo"], list), \
+            "Photos must be a list. Weird response from flickr"
+        assert isinstance(photos["pages"], int), "The number of pages should be an integer"
+
+        if len(photos["photo"]) == 0:
             # check if any photos are returned
             log_info(f"No images were returned for this hashtag: {self.hashtag}")
             return
 
-        total_pages = int(photos["pages"])  # guarantee is an integer
+        total_pages = photos["pages"]  # guarantee is an integer
 
         # if only one page returned, then process only that. otherwise, start with page 2.
         # the indexing on flickr API starts from 1

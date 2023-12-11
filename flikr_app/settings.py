@@ -1,5 +1,13 @@
+"""
+settings.py
+---------
+
+Settings module containing constants and credentials for accessing Flickr API
+"""
 import os
+
 from decouple import config
+
 
 FLICKR_API_KEY = config("API_KEY")
 FLICKR_SECRET_KEY = config("SECRET_KEY")
