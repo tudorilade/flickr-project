@@ -12,6 +12,7 @@ Functions:
     log_info(message): writes the info message to standard output
 """
 import sys
+from typing import Any, Dict
 
 import flickrapi
 import folium
@@ -57,6 +58,22 @@ def initialize_folium_map() -> folium.Map:
     render_map = folium.Map(location=(30, 10), zoom_start=3)
     render_map.save(PATH_TO_MAP)
     return render_map
+
+
+def validate_api_response(photos: Dict[str, Any]) -> None:
+    """Assumptions for Flickr API response
+
+    The API response must have a photo list as response where each individual photo
+    is displayed and the page must be an integer and passed.
+
+    Raise:
+        Assertion error in case of unexpected response from Flickr API
+    """
+    # assumptions that their API works as expected
+    assert "photo" in photos, "Photo key is missing"
+    assert isinstance(photos["photo"], list), \
+        "Photos must be a list. Weird response from flickr"
+    assert isinstance(photos["pages"], int), "The number of pages should be an integer"
 
 
 def log_error(message: str, error: str) -> None:

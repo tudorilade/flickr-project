@@ -24,10 +24,13 @@ in order to install the dependencies.
 In order to run the program, execute the script in this way:
 
 ```shell
-python main.py --hashtag <hashtag> [--limit <X>]
+python main.py --hashtag <hashtag> [[--limit <X>] [--refresh_map_after <Y>]]
 ```
-The **--hashtag** is required. You can insert either with "#" or not. The **--limit** tag is 
-optional. If you don't pass it, it will search for hashtag input in the entire API response.
+- **--hashtag** is required. You can insert either with "#" or not. 
+- **--limit** tag is optional. If you don't pass it, it will search for hashtag input 
+in the entire API response.
+- **--refresh_map_after** tag is optional. It specifies a refresh threshold of processde images 
+for Chrome driver. Default is refresh after every page processed
 
 Some examples:
 
@@ -41,6 +44,11 @@ python main.py --hashtag nice --limit 100
 python main.py --hashtag blabla
 ```
 
+4) Get the first 5000 photos matching "python" and refresh the map after 
+1500 are processed.
+```shell
+python main.py -t python -l 5000 -rfa 1500
+```
 
 ### Author: Tudor Ilade
 ### Fall 2023 - Alexandru Ioan Cuza University

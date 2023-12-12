@@ -28,7 +28,7 @@ def main() -> None:
         "-t",
         help="Target hashtag to look for."
              " For better searching, you can skip '#' at the beginning of word",
-        required=True
+        required=True,
     )
     cli_parser.add_argument(
         "--limit",
@@ -37,12 +37,23 @@ def main() -> None:
         required=False,
         type=int
     )
+    cli_parser.add_argument(
+        "--refresh_map_after",
+        "-rfa",
+        help="Default behavior is for the map to refresh after parsing a page from API. IT is "
+             "recommended to specify after how many processed entries the map should be refreshed."
+             " It can slow down the rendered map. default is 0, meaning that will refresh "
+             "after parsing a page from Flickr API",
+        required=False,
+        type=int,
+        default=0
+    )
 
     args = cli_parser.parse_args()
     hashtag = args.hashtag
     limit = int(args.limit) if args.limit else None
-
-    with FlickParser(hashtag=hashtag, limit=limit) as parser:
+    refresh_map_after = args.refresh_map_after
+    with FlickParser(hashtag=hashtag, limit=limit, refresh_map_after=refresh_map_after) as parser:
         parser.parse()
 
 
