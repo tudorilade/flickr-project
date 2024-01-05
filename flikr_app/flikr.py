@@ -193,7 +193,8 @@ class FlickParser:
 
 
     def get_photos(self, query_params: Dict[str, Any]) -> Dict[str, Any]:
-        """
+        """Get photos
+
         Retrieve all photos matching query_params
 
         Args:

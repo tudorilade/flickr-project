@@ -53,6 +53,7 @@ def main() -> None:
     hashtag = args.hashtag
     limit = int(args.limit) if args.limit else None
     refresh_map_after = args.refresh_map_after
+
     with FlickParser(hashtag=hashtag, limit=limit, refresh_map_after=refresh_map_after) as parser:
         parser.parse()
 
